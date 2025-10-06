@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wiki JPA - Java Persistence API</title>
+    <style>
+        body {
+            font-family: "Segoe UI", sans-serif;
+            margin: 0;
+            background-color: #f4f6f8;
+            color: #333;
+            display: flex;
+            height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: #1e1e2f;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            box-shadow: 3px 0 10px rgba(0,0,0,0.1);
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #00b4d8;
+        }
+
+        .menu-item {
+            background: none;
+            border: none;
+            color: #fff;
+            text-align: left;
+            padding: 10px 15px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: background 0.3s;
+        }
+
+        .menu-item:hover {
+            background: #00b4d8;
+        }
+
+        /* Main content */
+        .content {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        .content h1 {
+            color: #0077b6;
+        }
+
+        pre {
+            background: #272822;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+        }
+
+        code {
+            color: #90e0ef;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background: #0077b6;
+            color: #fff;
+        }
+
+        td {
+            background: #fff;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            color: #888;
+            font-size: 0.9em;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <h2>📘 Wiki JPA</h2>
+        <button class="menu-item" onclick="mostrar('intro')">1. Introducción</button>
+        <button class="menu-item" onclick="mostrar('entidades')">2. Entidades</button>
+        <button class="menu-item" onclick="mostrar('persistencia')">3. Persistencia</button>
+        <button class="menu-item" onclick="mostrar('anotaciones')">4. Anotaciones</button>
+        <button class="menu-item" onclick="mostrar('mapeo')">5. Mapeo de Relaciones</button>
+        <button class="menu-item" onclick="mostrar('ciclo')">6. Ciclo de Vida</button>
+        <button class="menu-item" onclick="mostrar('crud')">7. Operaciones CRUD</button>
+        <button class="menu-item" onclick="mostrar('conclusion')">8. Conclusión</button>
+    </div>
+
+    <div class="content" id="contenido">
+        <h1>Bienvenido a la Wiki JPA</h1>
+        <p>Selecciona un tema del menú para explorar los conceptos clave de Java Persistence API (JPA). Esta wiki fue diseñada para ayudarte a comprender los fundamentos de la persistencia en Java de manera clara y práctica.</p>
+    </div>
+
+    <footer>
+        © 2025 Wiki JPA - Proyecto colaborativo
+    </footer>
+
+    <script>
+        const temas = {
+            intro: `
+                <h1>1. Introducción a JPA</h1>
+                <p><b>Java Persistence API (JPA)</b> es una especificación de Java que permite gestionar datos relacionales mediante objetos Java.</p>
+                <pre><code>@Entity
+public class Estudiante {
+    @Id
+    private int id;
+    private String nombre;
+}</code></pre>
+            `,
+            entidades: `
+                <h1>2. Entidades</h1>
+                <p>Una <b>entidad</b> es una clase Java que representa una tabla en la base de datos. Cada instancia equivale a una fila.</p>
+                <pre><code>@Entity
+public class Profesor {
+    @Id
+    private Long id;
+    private String nombre;
+    private String correo;
+}</code></pre>
+            `,
+            persistencia: `
+                <h1>3. El Proceso de Persistencia</h1>
+                <p>La <b>persistencia</b> es el proceso mediante el cual los objetos se almacenan en la base de datos usando <code>EntityManager</code>.</p>
+                <pre><code>EntityManager em = emf.createEntityManager();
+em.getTransaction().begin();
+em.persist(nuevoProfesor);
+em.getTransaction().commit();</code></pre>
+            `,
+            anotaciones: `
+                <h1>4. Anotaciones más utilizadas en JPA</h1>
+                <table>
+                    <tr><th>Anotación</th><th>Descripción</th></tr>
+                    <tr><td>@Entity</td><td>Declara una clase como entidad.</td></tr>
+                    <tr><td>@Table</td><td>Personaliza el nombre de la tabla.</td></tr>
+                    <tr><td>@Id</td><td>Define la clave primaria.</td></tr>
+                    <tr><td>@GeneratedValue</td><td>Especifica cómo se genera el ID.</td></tr>
+                    <tr><td>@Column</td><td>Personaliza el nombre de la columna.</td></tr>
+                </table>
+            `,
+            mapeo: `
+                <h1>5. Mapeo de Relaciones</h1>
+                <p>JPA permite definir relaciones entre entidades mediante anotaciones.</p>
+                <pre><code>@OneToMany(mappedBy = "profesor")
+private List&lt;Estudiante&gt; estudiantes;</code></pre>
+            `,
+            ciclo: `
+                <h1>6. Ciclo de Vida de una Entidad</h1>
+                <table>
+                    <tr><th>Estado</th><th>Descripción</th></tr>
+                    <tr><td>New</td><td>Objeto recién creado.</td></tr>
+                    <tr><td>Managed</td><td>Administrado por EntityManager.</td></tr>
+                    <tr><td>Detached</td><td>Fuera del contexto de persistencia.</td></tr>
+                    <tr><td>Removed</td><td>Marcado para eliminación.</td></tr>
+                </table>
+            `,
+            crud: `
+                <h1>7. Operaciones CRUD en JPA</h1>
+                <p>JPA facilita las operaciones básicas de base de datos:</p>
+                <pre><code>em.persist(objeto);  // Crear
+em.find(Clase.class, id);  // Leer
+em.merge(objeto);  // Actualizar
+em.remove(objeto); // Eliminar</code></pre>
+            `,
+            conclusion: `
+                <h1>8. Conclusión</h1>
+                <p>JPA simplifica la gestión de datos en aplicaciones Java mediante un enfoque orientado a objetos. Con entidades, relaciones y operaciones CRUD, permite un desarrollo limpio y modular.</p>
+            `
+        };
+
+        function mostrar(seccion) {
+            const contenido = document.getElementById("contenido");
+            contenido.innerHTML = temas[seccion];
+            contenido.classList.add("fade-in");
+            setTimeout(() => contenido.classList.remove("fade-in"), 500);
+        }
+    </script>
+</body>
+</html>
